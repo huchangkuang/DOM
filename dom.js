@@ -101,8 +101,55 @@ window.dom = {
     },
     off(node, eventName, fn) {
         node.removeEventListener(eventName, fn)
+    },
+    //查找节点
+    find(selector,scope){
+        return (scope || document).querySelectorAll(selector)
+    },
+    //查父节点
+    parent(node){
+        return node.parentNode
+    },
+    //查子节点
+    children(node){
+        return node.children
+    },
+    //查兄弟节点
+    siblings(node){
+        return Array.from(node.parentNode.children).filter(n=>n!==node)
+    },
+    next(node){
+        let x = node.nextSibling
+        while(x&&x.nodeType === 3){
+            x = x.nextSibling
+        }
+        return x
+    },
+    //查前一个节点
+    previous(node){
+        let x = node.previousSibling
+        while(x && x.nodeType === 3){
+            x = x.previousSibling
+        }
+        return x
+    },
+    //遍历每个节点
+    each(nodeList,fn){
+        for(let i = 0;i<nodeList.length;i++){
+            fn.call(null,nodeList[i])
+        }
+    },
+    //查当前节点排第几
+    index(node){
+        const list = dom.children(node.parentNode)
+        let i
+        for(i=0;i<list.length;i++){
+            if(list[i] === node){
+                break
+            }
+        }
+        return i
     }
-
 }
 // window.dom
 // dom.create = ()=>{}
